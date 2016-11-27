@@ -28,7 +28,7 @@
  */
 template<typename T>
 BinarySearchTree<T>::BinarySearchTree()
-    : value_ptr(std::shared_ptr< T >(nullptr)),
+    : root_value_ptr(std::shared_ptr< T >(nullptr)),
       left_tree_ptr(std::shared_ptr< BinarySearchTree< T > >(nullptr)),
       right_tree_ptr(std::shared_ptr< BinarySearchTree< T > >(nullptr)) {}
 //
@@ -46,7 +46,7 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& origin)
     if (origin.empty())
     {
         // Default-initialize.
-        value_ptr = std::shared_ptr< T >(nullptr);
+        root_value_ptr = std::shared_ptr< T >(nullptr);
         left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
         right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
 
@@ -55,7 +55,7 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& origin)
     }
 
     // Copy-initialize value.
-    value_ptr = std::shared_ptr< T >( new T(*origin.value_ptr));
+    root_value_ptr = std::shared_ptr< T >( new T(*origin.value_ptr));
 
     // If left tree, copy-initialize.
     left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >( 
@@ -91,7 +91,7 @@ template<typename T>
 bool BinarySearchTree<T>::empty()
 {
     // Empty if no root.
-    return *value_ptr == nullptr;
+    return *root_value_ptr == nullptr;
 }
 //
 //  Class Member Implementation  ///////////////////////////////////////////////
@@ -105,6 +105,55 @@ bool BinarySearchTree<T>::empty()
  */
 template<typename T>
 unsigned int BinarySearchTree<T>::height() {}
+//
+//  Class Member Implementation  ///////////////////////////////////////////////
+//
+/**
+ *
+ * @details Returns a number indicating the current number of nodes in the tree
+ *
+ * @return Integer indicating the current number of nodes in the tree
+ *
+ */
+template<typename T>
+unsigned int BinarySearchTree<T>::total_nodes() {}
+//
+//  Class Member Implementation  ///////////////////////////////////////////////
+//
+/**
+ *
+ * @details Returns the value of the root node
+ *
+ * @return Returns the value of the root node
+ *
+ */
+template<typename T>
+T BinarySearchTree<T>::root_value()
+{
+    // Return root value.
+    return *root_value_ptr;
+}
+
+template<typename T>
+void BinarySearchTree<T>::clear() {}
+
+template<typename T>
+bool BinarySearchTree<T>::contains(T) {}
+
+template<typename T>
+void BinarySearchTree<T>::preorder_traverse() {}
+
+template<typename T>
+void BinarySearchTree<T>::inorder_traverse() {}
+
+template<typename T>
+void BinarySearchTree<T>::postorder_traverse() {}
+
+template<typename T>
+void BinarySearchTree<T>::add(T) {}
+
+template<typename T>
+void BinarySearchTree<T>::remove(T) {}
 //
 //  Terminating Precompiler Directives  ////////////////////////////////////////
 //
