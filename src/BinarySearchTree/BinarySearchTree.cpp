@@ -78,6 +78,34 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& origin)
 template<typename T>
 BinarySearchTree<T>::~BinarySearchTree() {}
 //
+//  Class Member Implementation  ///////////////////////////////////////////////
+//
+/**
+ *
+ * @details Returns a boolean value indicating if the tree is empty
+ *
+ * @return Boolean value indicating if the tree is empty
+ *
+ */
+template<typename T>
+bool BinarySearchTree<T>::empty()
+{
+    // Empty if no root.
+    return *value_ptr == nullptr;
+}
+//
+//  Class Member Implementation  ///////////////////////////////////////////////
+//
+/**
+ *
+ * @details Returns a number indicating the current height of the tree
+ *
+ * @return Integer indicating the current height of the tree
+ *
+ */
+template<typename T>
+unsigned int BinarySearchTree<T>::height() {}
+//
 //  Terminating Precompiler Directives  ////////////////////////////////////////
 //
 #endif // BINARY_SEARCH_TREE_CPP_
