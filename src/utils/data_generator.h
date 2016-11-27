@@ -28,9 +28,9 @@ namespace data_generator
 {
   // Generate random integer data set.
   void generate_random_data(
-    unsigned int,
-    unsigned int,
-    unsigned int,
+    size_t,
+    size_t,
+    size_t,
     std::shared_ptr< std::list< unsigned int > >
   ); /**< Generates random numbers and stores in list pointer parameter. */
 }

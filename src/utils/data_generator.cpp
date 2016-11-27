@@ -43,9 +43,9 @@
  *
  */
 void data_generator::generate_random_data(
-  unsigned int size,
-  unsigned int min,
-  unsigned int max,
+  size_t size,
+  size_t min,
+  size_t max,
   std::shared_ptr< std::list< unsigned int > > data_set_ptr
 )
 {
@@ -59,13 +59,57 @@ void data_generator::generate_random_data(
     .count()
   );
 
+  // Value buffer.
+  auto rnd_value = (unsigned int) std::rand() % (max + 1 - min) + min;
+
+  // Push first value.
+  data_set_ptr->push_back(rnd_value);
+
+  // Iterators.
+  auto ds_cursor_it = data_set_ptr->begin();
+  auto ds_end_it = data_set_ptr->end();
+
+  // Flag.
+  auto is_value_unique = false;
+
   // Generate data set.
-  for (unsigned int i = 0; i < size; i++)
+  for (unsigned int i = 0; i < size - 1; i++)
   {
-    // Emplace random value.
-    data_set_ptr->push_back(
-      (unsigned int) std::rand() % (max + 1 - min) + min
-    );
+    // Flag.
+    is_value_unique = false;
+
+    // Ensure item is unique before adding.
+    while (!is_value_unique)
+    {
+      // Generate new value.
+      rnd_value = (unsigned int) std::rand() % (max + 1 - min) + min;
+
+      // Flag.
+      is_value_unique = true;
+
+      // Is unique?
+      while (ds_cursor_it != ds_end_it)
+      {
+        // Is new value equal to current value?
+        if (rnd_value == *ds_cursor_it)
+        {
+          // Flag.
+          is_value_unique = false;
+
+          // Break.
+          break;
+        }
+        
+        // Advance.
+        ++ds_cursor_it;
+      }
+
+      // Reset cursor.
+      ds_cursor_it = data_set_ptr->begin();
+    }
+
+    // Push random value.
+    data_set_ptr->push_back(rnd_value);
   }
 }
 //

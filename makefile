@@ -8,8 +8,8 @@ OFLAGS = -o PA06
 
 
 # Executable.
-PA06: PA06.o data_generator.o
-	$(CC) $(STD) $(LFLAGS) PA06.o data_generator.o $(OFLAGS)
+PA06: PA06.o data_generator.o BinarySearchTree.o
+	$(CC) $(STD) $(LFLAGS) PA06.o data_generator.o BinarySearchTree.o $(OFLAGS)
 
 
 # PA06.
@@ -20,6 +20,11 @@ PA06.o: src/PA06.cpp src/utils/data_generator.h
 # Data generator.
 data_generator.o: src/utils/data_generator.h src/utils/data_generator.cpp
 	$(CC) $(STD) $(CFLAGS) src/utils/data_generator.cpp
+
+
+# Binary search tree.
+BinarySearchTree.o: src/BinarySearchTree/BinarySearchTree.h src/BinarySearchTree/BinarySearchTree.cpp
+	$(CC) $(STD) $(CFLAGS) src/BinarySearchTree/BinarySearchTree.cpp
 
 
 # Clean.

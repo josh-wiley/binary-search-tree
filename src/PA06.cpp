@@ -25,40 +25,49 @@
 #include <iostream>
 #include <memory>
 #include <thread>
-#include <algorithm> // TODO: REMOVE?
+#include <algorithm>
 #include "utils/data_generator.h"
+#include "BinarySearchTree/BinarySearchTree.h"
 //
 //  Main Function Implementation  //////////////////////////////////////////////
 //
 int main()
 {
-    // Test data containers. (move into lambda)
-    auto data_set_1_ptr = std::shared_ptr< std::list< unsigned int > >(
-        new std::list<unsigned int>()
-    );
-    auto data_set_2_ptr = std::shared_ptr< std::list< unsigned int > >(
-        new std::list<unsigned int>()
-    );
-
     // Binary search trees.
+    auto bst1_ptr = std::shared_ptr< BinarySearchTree< unsigned int > >(
+        new BinarySearchTree< unsigned int >()
+    );
+    auto bst2_ptr = std::shared_ptr< BinarySearchTree< unsigned int > >(
+        new BinarySearchTree< unsigned int >()
+    );
 
     // Generator function.
+    auto generator = [] (BinarySearchTree< unsigned int > bst_ptr, size_t size) mutable
+    {
+        // Test data.
+        auto data_set_ptr = std::shared_ptr< std::list< unsigned int > >(
+            new std::list<unsigned int>()
+        );
+
+        // Generate test data.
+        data_generator::generate_random_data(
+            size,
+            DATA_SET_MIN,
+            DATA_SET_MAX,
+            data_set_ptr
+        );
+
+        // Build tree.
+        std::for_each(data_set_ptr->begin(), data_set_ptr->end(), [] (auto i)
+        {
+            // Add item.
+            bst_ptr->add(i);
+        });
+    };
 
     // Parallel BST generation.
-    auto bst_builder_1 = std::thread(
-        data_generator::generate_random_data,
-        DATA_SET_1_SIZE,
-        DATA_SET_MIN,
-        DATA_SET_MAX,
-        data_set_1_ptr
-    );
-    auto bst_builder_2 = std::thread(
-        data_generator::generate_random_data,
-        DATA_SET_2_SIZE,
-        DATA_SET_MIN,
-        DATA_SET_MAX,
-        data_set_2_ptr
-    );
+    auto bst_builder_1 = std::thread(generator, bst1_ptr, DATA_SET_1_SIZE);
+    auto bst_builder_2 = std::thread(generator, bst2_ptr, DATA_SET_2_SIZE);
 
     // Block until finished.
     bst_builder_1.join();
