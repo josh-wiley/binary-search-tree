@@ -47,15 +47,15 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& origin)
     {
         // Default-initialize.
         root_value_ptr = std::shared_ptr< T >(nullptr);
-        left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(new BinarySearchTree< T >());
-        right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(new BinarySearchTree< T >());
+        left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
+        right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
 
         // Abort.
         return;
     }
 
     // Copy-initialize root.
-    root_value_ptr = std::shared_ptr< T >( new T(*origin.value_ptr));
+    root_value_ptr = std::shared_ptr< T >( new T(*origin.root_value_ptr));
 
     // Copy initialize left tree.
     left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >( 
