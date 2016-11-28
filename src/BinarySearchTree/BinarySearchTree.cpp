@@ -47,24 +47,24 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& origin)
     {
         // Default-initialize.
         root_value_ptr = std::shared_ptr< T >(nullptr);
-        left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
-        right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
+        left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(new BinarySearchTree< T >());
+        right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(new BinarySearchTree< T >());
 
         // Abort.
         return;
     }
 
-    // Copy-initialize value.
+    // Copy-initialize root.
     root_value_ptr = std::shared_ptr< T >( new T(*origin.value_ptr));
 
-    // If left tree, copy-initialize.
+    // Copy initialize left tree.
     left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >( 
-        origin.left_tree_ptr == nullptr ? nullptr : new BinarySearchTree<T>(*origin.left_tree_ptr)
+        new BinarySearchTree<T>(*origin.left_tree_ptr)
     );
-    
-    // If right tree, copy-initialize.
+
+    // Copy initialize right tree.
     right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >( 
-        origin.right_tree_ptr == nullptr ? nullptr : new BinarySearchTree<T>(*origin.right_tree_ptr)
+        new BinarySearchTree<T>(*origin.right_tree_ptr)
     );
 }
 //
@@ -104,7 +104,21 @@ bool BinarySearchTree<T>::empty()
  *
  */
 template<typename T>
-unsigned int BinarySearchTree<T>::height() {}
+unsigned int BinarySearchTree<T>::height()
+{
+    // Empty?
+    if (empty())
+    {
+        // Return 0.
+        return 0;
+    }
+
+    // Return.
+    return 1 + std::max(
+        left_tree_ptr->height(),
+        *right_tree_ptr == right_tree_ptr->height()
+    );
+}
 //
 //  Class Member Implementation  ///////////////////////////////////////////////
 //
@@ -133,12 +147,38 @@ T BinarySearchTree<T>::root_value()
     // Return root value.
     return *root_value_ptr;
 }
-
+//
+//  Class Member Implementation  ///////////////////////////////////////////////
+//
+/**
+ *
+ * @details Clears the binary search tree
+ *
+ */
 template<typename T>
-void BinarySearchTree<T>::clear() {}
-
+void BinarySearchTree<T>::clear()
+{
+    // Reset all smart pointers.
+    root_value_ptr.reset(nullptr);
+    left_tree_ptr.reset(new BinarySearchTree< T >());
+    right_tree_ptr.reset(new BinarySearchTree< T >());
+}
+//
+//  Class Member Implementation  ///////////////////////////////////////////////
+//
+/**
+ *
+ * @details Searches the tree for the value and returns a boolean value that
+ *          represents the results of the search.
+ *
+ * @param[in] key
+ *            Value used for comparison in search.
+ *
+ * @return Boolean value that represents the results of the search.
+ *
+ */
 template<typename T>
-bool BinarySearchTree<T>::contains(T) {}
+bool BinarySearchTree<T>::contains(T key) {}
 
 template<typename T>
 void BinarySearchTree<T>::preorder_traverse() {}
@@ -150,10 +190,24 @@ template<typename T>
 void BinarySearchTree<T>::postorder_traverse() {}
 
 template<typename T>
-void BinarySearchTree<T>::add(T) {}
+void BinarySearchTree<T>::add(const T& key)
+{
+    // Empty?
+    if (empty())
+    {
+        // Add as root.
+        root_value_ptr.reset(new T(key));
+
+        // Default initialize sub-trees.
+        left_tree_ptr.reset(new BinarySearchTree< T >());
+        right_tree_ptr.reset(new BinarySearchTree< T >());
+    }
+
+    // Which tree?
+}
 
 template<typename T>
-void BinarySearchTree<T>::remove(T) {}
+void BinarySearchTree<T>::remove(const T& key) {}
 //
 //  Terminating Precompiler Directives  ////////////////////////////////////////
 //

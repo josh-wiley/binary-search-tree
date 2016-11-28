@@ -18,6 +18,7 @@
 //  Header Files  //////////////////////////////////////////////////////////////
 //
 #include <memory>
+#include <algorithm>
 //
 //  Class Definition  //////////////////////////////////////////////////////////
 //
@@ -39,8 +40,8 @@ public:
     void preorder_traverse();
     void inorder_traverse();
     void postorder_traverse();
-    void add(T); /**< Adds item to correct place in tree */
-    void remove(T); /**< Removes value from tree */
+    void add(const T&); /**< Adds item to correct place in tree */
+    void remove(const T&); /**< Removes value from tree */
 
 // Private members.
 private:
