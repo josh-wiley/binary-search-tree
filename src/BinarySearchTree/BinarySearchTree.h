@@ -19,6 +19,7 @@
 //
 #include <memory>
 #include <algorithm>
+#include <functional>
 //
 //  Class Definition  //////////////////////////////////////////////////////////
 //
@@ -37,9 +38,9 @@ public:
     T root_value(); /**< Returns value of root node */
     void clear(); /**< Clears tree and all sub-trees. */
     bool contains(T); /**< Check if the value exists in the tree */
-    void preorder_traverse();
-    void inorder_traverse();
-    void postorder_traverse();
+    void each_preorder(std::function< void(std::shared_ptr<T>) >); /**< Executes provided function on each item in preorder. */
+    void each_inorder(std::function< void(std::shared_ptr<T>) >); /**< Executes provided function on each item in order. */
+    void each_postorder(std::function< void(std::shared_ptr<T>) >); /**< Executes provided function on each item in postorder. */
     void add(const T&); /**< Adds item to correct place in tree */
     void remove(const T&); /**< Removes value from tree */
 

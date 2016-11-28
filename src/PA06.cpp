@@ -42,7 +42,7 @@ int main()
     );
 
     // Generator function.
-    auto generator = [] (BinarySearchTree< unsigned int > bst_ptr, size_t size) mutable
+    auto generator = [] (std::shared_ptr< BinarySearchTree< unsigned int > > bst_ptr, size_t size) mutable
     {
         // Test data.
         auto data_set_ptr = std::shared_ptr< std::list< unsigned int > >(
@@ -58,7 +58,7 @@ int main()
         );
 
         // Build tree.
-        std::for_each(data_set_ptr->begin(), data_set_ptr->end(), [] (auto i)
+        std::for_each(data_set_ptr->begin(), data_set_ptr->end(), [bst_ptr] (auto i) mutable
         {
             // Add item.
             bst_ptr->add(i);
@@ -73,15 +73,44 @@ int main()
     bst_builder_1.join();
     bst_builder_2.join();
 
-    // Display BST #1 stats.
+    // Display BST #1 height.
+    std::cout << "\n\nBST #1 Height: " << bst1_ptr->height();
 
-    // Display BST #2 stats.
+    // Display function.
+    auto display_each = [] (auto i) { std::cout << *i << ' '; };
+
+    // Display BST #1 in-order output.
+    std::cout << "\n\nBST #1 in-order:\n";
+    bst1_ptr->each_inorder(display_each);
+
+    // Display BST #2 pre-order.
+    std::cout << "\n\nBST #2 pre-order:\n";
+    bst2_ptr->each_preorder(display_each);
+
+    // Display BST #2 in-order.
+    std::cout << "\n\nBST #2 in-order:\n";
+    bst2_ptr->each_inorder(display_each);
+
+    // Display BST #2 post-order.
+    std::cout << "\n\nBST #1 post-order:\n";
+    bst2_ptr->each_postorder(display_each);
 
     // Remove values in BST #2 from BST #1.
 
-    // Display BST #1 stats.
+    // Display BST #1 height.
+
+    // Display BST #1 total nodes.
+
+    // Display BST #1 inorder.
+
+    // Display BST #1 and BST #2 empty state.
 
     // Clear BSTs.
+
+    // Display BST #1 and BST #2 empty state (again).
+
+    // Padding and flush stream.
+    std::cout << '\n' << std::endl;
 
     // Exit (success).
     return 0;
