@@ -34,12 +34,8 @@
 int main()
 {
     // Binary search trees.
-    auto bst1_ptr = std::shared_ptr< BinarySearchTree< unsigned int > >(
-        new BinarySearchTree< unsigned int >()
-    );
-    auto bst2_ptr = std::shared_ptr< BinarySearchTree< unsigned int > >(
-        new BinarySearchTree< unsigned int >()
-    );
+    auto bst1_ptr = std::make_shared< BinarySearchTree< unsigned int > >();
+    auto bst2_ptr = std::make_shared< BinarySearchTree< unsigned int > >();
 
     // Generator function.
     auto generator = [] (std::shared_ptr< BinarySearchTree< unsigned int > > bst_ptr, size_t size) mutable

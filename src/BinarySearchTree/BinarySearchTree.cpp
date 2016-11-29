@@ -28,9 +28,9 @@
  */
 template<typename T>
 BinarySearchTree<T>::BinarySearchTree()
-    : root_value_ptr(std::shared_ptr< T >(nullptr)),
-      left_tree_ptr(std::shared_ptr< BinarySearchTree< T > >(nullptr)),
-      right_tree_ptr(std::shared_ptr< BinarySearchTree< T > >(nullptr)) {}
+    : root_value_ptr(nullptr),
+      left_tree_ptr(nullptr),
+      right_tree_ptr(nullptr) {}
 //
 //  Class Member Implementation  ///////////////////////////////////////////////
 //
@@ -46,25 +46,25 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& origin)
     if (origin.empty())
     {
         // Default-initialize.
-        root_value_ptr = std::shared_ptr< T >(nullptr);
-        left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
-        right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >(nullptr);
+        root_value_ptr = nullptr;
+        left_tree_ptr = nullptr;
+        right_tree_ptr = nullptr;
 
         // Abort.
         return;
     }
 
     // Copy-initialize root.
-    root_value_ptr = std::shared_ptr< T >( new T(*origin.root_value_ptr));
+    root_value_ptr = std::make_shared< T >(*origin.root_value_ptr);
 
     // Copy initialize left tree.
-    left_tree_ptr = std::shared_ptr< BinarySearchTree< T > >( 
-        new BinarySearchTree<T>(*origin.left_tree_ptr)
+    left_tree_ptr = std::make_shared< BinarySearchTree< T > >( 
+        *origin.left_tree_ptr
     );
 
     // Copy initialize right tree.
-    right_tree_ptr = std::shared_ptr< BinarySearchTree< T > >( 
-        new BinarySearchTree<T>(*origin.right_tree_ptr)
+    right_tree_ptr = std::make_shared< BinarySearchTree< T > >( 
+        *origin.right_tree_ptr
     );
 }
 //
@@ -159,7 +159,7 @@ template<typename T>
 void BinarySearchTree<T>::clear()
 {
     // Reset all smart pointers.
-    root_value_ptr.reset(nullptr);
+    root_value_ptr = nullptr;
     left_tree_ptr.reset(new BinarySearchTree< T >());
     right_tree_ptr.reset(new BinarySearchTree< T >());
 }
@@ -181,7 +181,7 @@ template<typename T>
 bool BinarySearchTree<T>::contains(T key)
 {
     // Flag.
-    auto is_key_present = std::shared_ptr< bool >(new bool(false));
+    auto is_key_present = std::make_shared< bool >(false);
 
     // Find.
     each_inorder([is_key_present, key] (auto i)
@@ -249,13 +249,13 @@ void BinarySearchTree<T>::each_inorder(std::function< void(std::shared_ptr<T>) >
     }
 
     // Forward.
-    left_tree_ptr->each_preorder(iteratee);
+    left_tree_ptr->each_inorder(iteratee);
 
     // Process root.
     iteratee(root_value_ptr);
 
     // Forward
-    right_tree_ptr->each_preorder(iteratee);
+    right_tree_ptr->each_inorder(iteratee);
 }
 //
 //  Class Member Implementation  ///////////////////////////////////////////////
@@ -280,8 +280,8 @@ void BinarySearchTree<T>::each_postorder(std::function< void(std::shared_ptr<T>)
     }
 
     // Forward.
-    left_tree_ptr->each_preorder(iteratee);
-    right_tree_ptr->each_preorder(iteratee);
+    left_tree_ptr->each_postorder(iteratee);
+    right_tree_ptr->each_postorder(iteratee);
 
     // Process root.
     iteratee(root_value_ptr);
