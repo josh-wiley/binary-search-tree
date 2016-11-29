@@ -70,7 +70,7 @@ int main()
     bst_builder_2.join();
 
     // Display BST #1 height.
-    std::cout << "\n\nBST #1 Height: " << bst1_ptr->height();
+    std::cout << "\n\nBST #1 height: " << bst1_ptr->height();
 
     // Display function.
     auto display_each = [] (auto i) { std::cout << *i << ' '; };
@@ -88,22 +88,47 @@ int main()
     bst2_ptr->each_inorder(display_each);
 
     // Display BST #2 post-order.
-    std::cout << "\n\nBST #1 post-order:\n";
+    std::cout << "\n\nBST #2 post-order:\n";
     bst2_ptr->each_postorder(display_each);
 
     // Remove values in BST #2 from BST #1.
+    bst2_ptr->each_inorder([bst1_ptr] (auto node_ptr)
+    {
+        // Remove from BST #1 and display result.
+        if (bst1_ptr->remove(*node_ptr))
+        {
+            // Display success message.
+            std::cout << "\n\nSuccessfully removed " << *node_ptr << " from BST #1...";
+        }
+        else
+        {
+            // Display failure message.
+            std::cout << "\n\nThe value " << *node_ptr << " was not found in BST #1...";
+        }
+        
+    });
 
-    // Display BST #1 height.
+    // Display BST #1 height (again).
+    std::cout << "\n\nBST #1 height: " << bst1_ptr->height();
 
     // Display BST #1 total nodes.
+    std::cout << "\n\nBST #1 total nodes: " << bst1_ptr->total_nodes();
 
     // Display BST #1 inorder.
+    std::cout << "\n\nBST #1 in-order:\n";
+    bst1_ptr->each_inorder(display_each);
 
     // Display BST #1 and BST #2 empty state.
+    std::cout << "\n\nBST #1 empty state is " << bst1_ptr->empty()
+              << "\n\nBST #2 empty state is " << bst2_ptr->empty();
 
     // Clear BSTs.
+    bst1_ptr->clear();
+    bst2_ptr->clear();
 
     // Display BST #1 and BST #2 empty state (again).
+    std::cout << "\n\nBST #1 empty state is " << bst1_ptr->empty()
+              << "\n\nBST #2 empty state is " << bst2_ptr->empty();
 
     // Padding and flush stream.
     std::cout << '\n' << std::endl;
