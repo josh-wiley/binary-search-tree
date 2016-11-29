@@ -38,7 +38,7 @@ int main()
     auto bst2_ptr = std::make_shared< BinarySearchTree< unsigned int > >();
 
     // Generator function.
-    auto generator = [] (std::shared_ptr< BinarySearchTree< unsigned int > > bst_ptr, size_t size) mutable
+    auto generator = [] (std::shared_ptr< BinarySearchTree< unsigned int > > bst_ptr, size_t size)
     {
         // Test data.
         auto data_set_ptr = std::shared_ptr< std::list< unsigned int > >(
@@ -54,7 +54,7 @@ int main()
         );
 
         // Build tree.
-        std::for_each(data_set_ptr->begin(), data_set_ptr->end(), [bst_ptr] (auto i) mutable
+        std::for_each(data_set_ptr->begin(), data_set_ptr->end(), [bst_ptr] (auto i)
         {
             // Add item.
             bst_ptr->add(i);
@@ -90,7 +90,7 @@ int main()
     // Display BST #2 post-order.
     std::cout << "\n\nBST #2 post-order:\n";
     bst2_ptr->each_postorder(display_each);
-
+    
     // Remove values in BST #2 from BST #1.
     bst2_ptr->each_inorder([bst1_ptr] (auto node_ptr)
     {
@@ -107,7 +107,7 @@ int main()
         }
         
     });
-
+    
     // Display BST #1 height (again).
     std::cout << "\n\nBST #1 height: " << bst1_ptr->height();
 

@@ -174,8 +174,8 @@ void BinarySearchTree<T>::clear()
 {
     // Reset all pointers.
     root_value_ptr_ = nullptr;
-    left_tree_ptr_.reset(new BinarySearchTree< T >());
-    right_tree_ptr_.reset(new BinarySearchTree< T >());
+    left_tree_ptr_.reset(new BinarySearchTree< T >(this));
+    right_tree_ptr_.reset(new BinarySearchTree< T >(this));
 }
 //
 //  Class Member Implementation  ///////////////////////////////////////////////
@@ -357,14 +357,18 @@ bool BinarySearchTree<T>::remove(const T& key)
     // Not leaf?
     if (!(node_to_remove_rawptr->left_tree_ptr_->empty() && node_to_remove_rawptr->right_tree_ptr_->empty()))
     {
-        // One step left.
+        // Step left.
         auto replacement_node_ptr = node_to_remove_rawptr->left_tree_ptr_;
 
-        // Walk right until at leaf.
-        while (!replacement_node_ptr->right_tree_ptr_->empty())
+        // Can go right?
+        if (!(replacement_node_ptr->empty()))
         {
-            // Shift right.
-            replacement_node_ptr = replacement_node_ptr->right_tree_ptr_;
+            // Walk right until at right edge.
+            while (!(replacement_node_ptr->right_tree_ptr_->empty()))
+            {
+                // Step right.
+                replacement_node_ptr = replacement_node_ptr->right_tree_ptr_;
+            }
         }
 
         // Swap root values.
@@ -380,7 +384,10 @@ bool BinarySearchTree<T>::remove(const T& key)
     }
 
     // Is value the root of the left tree?
-    if (*(parent_of_node_to_remove_rawptr->left_tree_ptr_->root_value_ptr_) == key)
+    if (
+        !(parent_of_node_to_remove_rawptr->left_tree_ptr_->empty()) &&
+        *(parent_of_node_to_remove_rawptr->left_tree_ptr_->root_value_ptr_) == key
+       )
     {
         // Remove via parent.
         parent_of_node_to_remove_rawptr->left_tree_ptr_->clear();
@@ -411,7 +418,12 @@ template<typename T>
 BinarySearchTree< T >* BinarySearchTree<T>::fetch_node(T key)
 {
     // Is empty or equal?
-    if (empty() || key == *root_value_ptr_)
+    if (empty())
+    {
+        // No match.
+        return nullptr;
+    }
+    else if (key == *root_value_ptr_)
     {
         // Return this.
         return this;
