@@ -9,7 +9,7 @@ OFLAGS = -o PA06
 
 # Executable.
 PA06: PA06.o data_generator.o
-	$(CC) $(STD) $(LFLAGS) PA06.o data_generator.o -pthread $(OFLAGS)
+	$(CC) $(STD) $(LFLAGS) PA06.o data_generator.o -lpthread $(OFLAGS)
 
 
 # PA06.
