@@ -174,8 +174,8 @@ void BinarySearchTree<T>::clear()
 {
     // Reset all pointers.
     root_value_ptr_ = nullptr;
-    left_tree_ptr_.reset(new BinarySearchTree< T >(this));
-    right_tree_ptr_.reset(new BinarySearchTree< T >(this));
+    left_tree_ptr_ = nullptr;
+    right_tree_ptr_ = nullptr;
 }
 //
 //  Class Member Implementation  ///////////////////////////////////////////////
